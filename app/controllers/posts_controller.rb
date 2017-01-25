@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :find_event, only: [:new, :create, :index]
+  before_action :find_event, only: [:new, :create, :index,:show]
 
   def index
     @posts = @event.posts
@@ -20,6 +20,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @comment = Comment.new
   end
 
   private

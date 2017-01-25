@@ -13,7 +13,7 @@
 !/log/.keep
 !/tmp/.keep
 /config/database.yml
-/config/secret.yml
+/config/secrets.yml
 
 # Ignore Byebug command history file.
 .byebug_history

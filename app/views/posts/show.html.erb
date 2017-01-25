@@ -6,4 +6,16 @@
 
 <hr>
 <h1>Comments</h1>
-<p><%= link_to 'Add comment', '#' %></p>
+
+<% if @post.comments.any? %>
+  <%= render partial: 'comment', collection: @post.comments, as: 'comment' %>
+<% else %>
+  <p>No comments now</p>
+<% end %>
+
+<h3>Add comments</h3>
+<%= form_for @comment, url: event_post_comments_path(@event, @post), method: :post do |f| %>
+  <%= f.hidden_field :post_id, value: @post.id %>
+  <%= f.text_area :body %><br>
+  <%= f.submit %>
+<% end %>
