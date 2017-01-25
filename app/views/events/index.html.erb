@@ -1,0 +1,31 @@
+<%= link_to 'Add new event' , new_event_path %><br>
+<hr>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>Title</td>
+      <td>Proposal</td>
+      <td></td>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @events.any? %>
+      <% @events.each do |event| %>
+        <tr>
+          <td><%= event.id %></td>
+          <td><%= link_to event.title, event_path(event) %></td>
+          <td><%= event.posts.count %></td>
+          <td><%= link_to 'Edit', edit_event_path(event), class: 'btn btn-primary' %>
+              <%= link_to 'Delete', event_path(event),method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
+              <%= link_to 'Add Proposal', new_event_post_path(event), class: 'btn btn-default' %>    
+          </td>
+
+        <tr>
+      <% end %>
+    <% else %>
+      <h2>No event now</h2>
+    <% end %>
+  </tbody>
+</table>

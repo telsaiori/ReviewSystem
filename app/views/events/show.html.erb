@@ -1,0 +1,14 @@
+<h1><%= @event.title %></h1>
+<h2>Description</h2>
+<p><%= @event.body %></p>
+<h2>Date</h2>
+<p><%= @event.start_date%> ~ <%= @event.end_date %></p>
+<hr>
+
+<p><%= link_to 'Add proposal', new_event_post_path(@event) %></p>
+<p><%= link_to 'Check all proposal', event_posts_path(@event) %></p>
+
+
+
+
+  
