@@ -2,7 +2,7 @@
 <h2>Title</h2>
 <p><%= @post.title %></p>
 <h2>Content</h2>
-<p><%= @post.body %></p>
+<p><%= sanitize markdown @post.body %></p>
 
 <hr>
 <h1>Comments</h1>

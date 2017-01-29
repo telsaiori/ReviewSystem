@@ -1,8 +1,9 @@
 class PostsController < ApplicationController
-  before_action :find_event, only: [:new, :create, :index,:show]
+  before_action :find_event
+  before_action :find_post, only: [:edit, :update, :destroy, :show]
 
   def index
-    @posts = @event.posts
+    @posts = @event.posts.order('id')
   end
   
   def new
@@ -18,8 +19,21 @@ class PostsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @post.update(post_params)
+      redirect_to event_post_path(@event,@post), notice: 'Edited'
+    else
+      render 'edit'
+    end
+  end
+
+  def destroy
+  end
+
   def show
-    @post = Post.find(params[:id])
     @comment = Comment.new
   end
 
@@ -31,6 +45,10 @@ class PostsController < ApplicationController
   
   def find_event
     @event = Event.find(params[:event_id])
+  end
+
+  def find_post
+    @post = Post.find(params[:id])
   end
 
 end
