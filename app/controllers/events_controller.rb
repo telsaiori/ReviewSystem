@@ -2,7 +2,7 @@ class EventsController < ApplicationController
 
   before_action :find_event, only: [:edit,:show, :update,:destroy]
   def index
-    @events = Event.all
+    @events = Event.all.order('id')
   end
 
   def new
@@ -24,7 +24,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      redirect_to root_path, notice: 'Change Saved'
+      redirect_to event_path(@event), notice: 'Change Saved'
     else
       reder 'edit'
     end
@@ -34,7 +34,8 @@ class EventsController < ApplicationController
   end
 
   def destroy
-
+    @event.destroy
+    redirect_to events_path, notice: 'Deleted'
   end
 
   private
