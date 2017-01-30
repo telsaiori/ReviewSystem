@@ -1,4 +1,5 @@
-<h1>Proposal</h1>
+<span class="post_title">Proposal</span>[<%= link_to 'Edit', edit_event_post_path(@event, @post) %>]
+<hr>
 <h2>Title</h2>
 <p><%= @post.title %></p>
 <h2>Content</h2>
@@ -8,7 +9,7 @@
 <h1>Comments</h1>
 <div class="proposal_comments">
   <% if @post.comments.any? %>
-    <%= render partial: 'comment', collection: @post.comments, as: 'comment' %>
+    <%= render partial: 'comment', collection: @post.comments.includes(:user), as: 'comment' %>
   <% else %>
     <p>No comments now</p>
   <% end %>

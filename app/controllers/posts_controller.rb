@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :find_post, only: [:edit, :update, :destroy, :show]
 
   def index
-    @posts = @event.posts.order('id')
+    @posts = search(@event.posts.order('id'))
   end
   
   def new
@@ -31,6 +31,8 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @post.destroy
+    redirect_to event_posts_path(@event), alert: 'Deleted'
   end
 
   def show
@@ -48,7 +50,35 @@ class PostsController < ApplicationController
   end
 
   def find_post
-    @post = Post.find(params[:id])
+    @post = Post.includes([:comments, :user]).find(params[:id])
+  end
+
+  def search(query)
+    if params[:search_field]
+      if params[:search_field] == "content"
+        search_field = "body"
+      elsif params[:search_field] == "title"
+        search_field = "title"
+      end
+        if search_field
+          if params[:search_type] == 'Like'
+            #Foo.where("bar LIKE ?", "%#{query}%")
+            query.where("#{search_field} ILIKE ?", "%#{params[:search_keyword]}%" )  
+          else
+            # Bank.where("#{var} = ?", id)
+            query.where("#{search_field} = ? ", "%#{params[:search_keyword]}%")
+          end
+        else
+          if params[:search_type] == 'Like'
+            user = User.where("email ILIKE ?", "%#{params[:search_keyword]}%")
+            user.first.posts
+          else
+            posts.joins(:user).where(users: {email: params[:search_keyword]})
+         end
+       end
+    else
+      query
+    end
   end
 
 end

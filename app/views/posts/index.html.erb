@@ -1,4 +1,21 @@
 <h1>All Proposal</h1>
+<div class="search">
+  <%= form_tag event_posts_path(@event), method: :get do %>
+    <span>
+      Search by:
+      <%= select_tag "search_field", options_for_select(["title", "content", "user"]) %>
+    </span>
+    <span>
+      Search Type: 
+      <%=  select_tag "search_type", options_for_select(["Like", "Equel"]) %>
+    </span>
+    <span>
+      Keywords:
+      <%= text_field_tag "search_keyword" %>
+    </span>
+    <%= submit_tag "Search", class: 'btn btn-primary btn-sm' %>
+  <% end %>
+</div>
 <% if @posts.any? %>
   <table class="table table-striped">
     <thead>
@@ -6,6 +23,7 @@
         <td>ID</td>
         <td>Title</td>
         <td>content</td>
+        <td>User</td>
         <td></td>
       </tr>
     </thead>
@@ -15,11 +33,15 @@
         <tr>
           <td><%= post.id %></td>
           <td><%= link_to post.title, event_post_path(@event, post) %></td>
-          <td><%= truncate post.body %></td>
+          <td><%= sanitize (truncate (markdown post.body),escape: false) %></td>
+          <td><%= post.user.email %></td>
           <td>
-            <%= link_to 'Edit', edit_event_post_path(@event, post), class: 'btn btn-primary'%>
-            <%= link_to 'Delete', event_post_path(@event, post), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
+            <% if post.user == current_user %> 
+              <%= link_to 'Edit', edit_event_post_path(@event, post), class: 'btn btn-primary'%>
+              <%= link_to 'Delete', event_post_path(@event, post), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
+            <% end %>
           </td>
+          
         </tr>
       <% end %>
     </tbody>
