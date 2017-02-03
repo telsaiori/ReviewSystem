@@ -62,16 +62,15 @@ class PostsController < ApplicationController
       end
         if search_field
           if params[:search_type] == 'Like'
-            #Foo.where("bar LIKE ?", "%#{query}%")
             query.where("#{search_field} ILIKE ?", "%#{params[:search_keyword]}%" )  
           else
-            # Bank.where("#{var} = ?", id)
             query.where("#{search_field} = ? ", "%#{params[:search_keyword]}%")
           end
         else
           if params[:search_type] == 'Like'
-            user = User.where("email ILIKE ?", "%#{params[:search_keyword]}%")
-            user.first.posts
+            users = User.where("email ILIKE ?", "%#{params[:search_keyword]}%")
+            # users.map{ |user|user.posts }
+            users.first.posts
           else
             posts.joins(:user).where(users: {email: params[:search_keyword]})
          end
