@@ -1,0 +1,37 @@
+<%= link_to 'Add new event' , new_event_path %><br>
+<hr>
+
+<%=form_tag del_events_admin_events_path, method: :delete %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <td></td>
+        <td>ID</td>
+        <td>Title</td>
+        <td>Proposal</td>
+        <td>Date</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @events.any? %>
+        <% @events.each do |event| %>
+          <tr>
+            <td><%= check_box_tag 'event_ids[]', event.id %></td>
+            <td><%= event.id %></td>
+            <td><%= link_to event.title, event_path(event) %></td>
+            <td><%= event.posts.count %></td>
+            <td><%= event.start_date %> ~ <%= event.end_date %></td>
+            <td><%= link_to 'Edit', edit_admin_event_path(event), class: 'btn btn-primary' %>
+                <%= link_to 'Delete', admin_event_path(event),method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
+                <%= link_to 'Add Proposal', new_event_post_path(event), class: 'btn btn-default' %>    
+            </td>
+
+          <tr>
+        <% end %>
+      <% else %>
+        <h2>No event now</h2>
+      <% end %>
+    </tbody>
+  </table>
+<%= submit_tag 'Delete Selected Events', class: 'btn btn-danger' %>

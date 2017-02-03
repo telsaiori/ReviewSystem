@@ -7,5 +7,16 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :events do 
+      collection do 
+        delete :del_events
+      end
+      resources :posts do 
+        resources :comments
+      end
+    end
+  end
+
   root 'events#index'
 end

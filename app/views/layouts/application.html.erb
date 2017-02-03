@@ -9,7 +9,12 @@
   </head>
 
   <body>
-    <%= render partial: 'shared/navbar' %>
+    <% if params[:controller] == "admin/events" %>
+      <%= render partial: 'shared/admin_nav' %>
+    <% else %>
+      <%= render partial: 'shared/navbar' %>
+    <% end %>
+    
     <div class="container">
       <%= render partial: 'shared/flash' %>
       <%= yield %>
