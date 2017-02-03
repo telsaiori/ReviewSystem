@@ -24,7 +24,7 @@ class Admin::EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      redirect_to event_path(@event), notice: 'Change Saved'
+      redirect_to admin_event_path(@event), notice: 'Change Saved'
     else
       reder 'edit'
     end
@@ -35,7 +35,7 @@ class Admin::EventsController < ApplicationController
 
   def destroy
     @event.destroy
-    redirect_to events_path, alert: 'Deleted'
+    redirect_to admin_events_path, alert: 'Deleted'
   end
 
   def del_events
@@ -46,7 +46,7 @@ class Admin::EventsController < ApplicationController
   private
   
   def event_params
-    params.require(:event).permit(:title,:body,:start_date,:end_date)
+    params.require(:admin_event).permit(:title,:body,:start_date,:end_date)
   end
 
   def find_event

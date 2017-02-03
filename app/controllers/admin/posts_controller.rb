@@ -1,5 +1,5 @@
 class Admin::PostsController < ApplicationController
-  before_action :find_event
+  before_action :find_event, except: [:all_posts]
   before_action :find_post, only: [:edit, :update, :destroy, :show]
 
   def index
@@ -24,7 +24,7 @@ class Admin::PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      redirect_to event_post_path(@event,@post), notice: 'Edited'
+      redirect_to admin_event_post_path(@event,@post), notice: 'Edited'
     else
       render 'edit'
     end
@@ -39,18 +39,27 @@ class Admin::PostsController < ApplicationController
     @comment = Comment.new
   end
 
+  def del_posts
+    Post.destroy_all(id: params[:post_ids])
+    redirect_to admin_event_posts_path(params[:event_id]), notice: 'Deleted'
+  end
+
+  def all_posts 
+    @posts = Post.all
+  end
+
   private
 
   def post_params
-    params.require(:post).permit(:title, :body, :user_id)
+    params.require(:admin_post).permit(:title, :body, :user_id)
   end
   
   def find_event
-    @event = Event.find(params[:event_id])
+    @event = Admin::Event.find(params[:event_id])
   end
 
   def find_post
-    @post = Post.includes([:comments, :user]).find(params[:id])
+    @post = Admin::Post.includes([:comments]).find(params[:id])
   end
 
   def search(query)

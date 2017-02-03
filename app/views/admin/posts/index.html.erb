@@ -1,6 +1,6 @@
 <h1>All Proposal</h1>
 <div class="search">
-  <%= form_tag event_posts_path(@event), method: :get do %>
+  <%= form_tag admin_event_posts_path(@event), method: :get do %>
     <span>
       Search by:
       <%= select_tag "search_field", options_for_select(["title", "content", "user"]) %>
@@ -17,35 +17,39 @@
   <% end %>
 </div>
 <% if @posts.any? %>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <td>ID</td>
-        <td>Title</td>
-        <td>content</td>
-        <td>User</td>
-        <td></td>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @posts.each do |post| %>
+  <%= form_tag del_posts_admin_event_posts_path, method: :delete %>
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td><%= post.id %></td>
-          <td><%= link_to post.title, event_post_path(@event, post) %></td>
-          <td><%= sanitize (truncate (markdown post.body),escape: false) %></td>
-          <td><%= post.user.email %></td>
-          <td>
-            <% if post.user == current_user %> 
-              <%= link_to 'Edit', edit_event_post_path(@event, post), class: 'btn btn-primary'%>
-              <%= link_to 'Delete', event_post_path(@event, post), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
-            <% end %>
-          </td>
-          
+          <td></td>
+          <td>ID</td>
+          <td>Title</td>
+          <td>content</td>
+          <td>User</td>
+          <td></td>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+
+      <tbody>
+        <% @posts.includes(:user).each do |post| %>
+          <tr>
+            <td><%= check_box_tag 'post_ids[]', post.id %></td>
+            <td><%= post.id %></td>
+            <td><%= link_to post.title, admin_event_post_path(@event, post) %></td>
+            <td><%= sanitize (truncate (markdown post.body),escape: false) %></td>
+            <td><%= post.user.email %></td>
+            <td>
+              <% if post.user == current_user %> 
+                <%= link_to 'Edit', edit_event_post_path(@event, post), class: 'btn btn-primary'%>
+                <%= link_to 'Delete', event_post_path(@event, post), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
+              <% end %>
+            </td>
+            
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <%= submit_tag 'Delete selected proposal', class: 'btn btn-danger' %>
 <% else %>
   <h2>No Proposal</h2>
   <p><%= link_to 'Add now?', new_event_post_path(@event) %></p>

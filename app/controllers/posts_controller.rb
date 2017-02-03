@@ -50,7 +50,7 @@ class PostsController < ApplicationController
   end
 
   def find_post
-    @post = Post.includes([:comments, :user]).find(params[:id])
+    @post = Post.includes([:comments]).find(params[:id])
   end
 
   def search(query)

@@ -19,7 +19,7 @@
           <tr>
             <td><%= check_box_tag 'event_ids[]', event.id %></td>
             <td><%= event.id %></td>
-            <td><%= link_to event.title, event_path(event) %></td>
+            <td><%= link_to event.title, admin_event_path(event) %></td>
             <td><%= event.posts.count %></td>
             <td><%= event.start_date %> ~ <%= event.end_date %></td>
             <td><%= link_to 'Edit', edit_admin_event_path(event), class: 'btn btn-primary' %>
