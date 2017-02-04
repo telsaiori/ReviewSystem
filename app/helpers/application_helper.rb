@@ -41,4 +41,19 @@ module ApplicationHelper
         markdown = Redcarpet::Markdown.new(html_render, options)
         markdown.render(text)
     end
+
+    SELECTED_PARAMS = %i(search_field search_type search_key commit)
+    
+
+    def sort(column)
+      column = column == "" ? "id" : column
+      direction = params[:direction] == "" || params[:direction] == "asc" ? "desc" : "asc"
+      link_to "", events_path(sort_col: column, direction: direction), class: "fa fa-sort-amount-#{direction}"
+    end
+
+    # def merge_with_params(new_params)
+    #   params.permit("SELECTED_PARAMS").merge(new_params)
+    # end
+
+
 end

@@ -2,7 +2,11 @@ class EventsController < ApplicationController
 
   before_action :find_event, only: [:edit,:show, :update,:destroy]
   def index
-    @events = Event.all.order('id')
+    if params[:sort_col]
+      @events = Event.all.order("#{params[:sort_col]} #{params[:direction]}")
+    else
+      @events = Event.all.order('id')
+    end
   end
 
   def new
