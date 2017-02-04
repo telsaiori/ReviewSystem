@@ -1,5 +1,5 @@
 class Admin::PostsController < ApplicationController
-  before_action :find_event, except: [:all_posts]
+  before_action :find_event, except: [:all_posts, :del_posts_page]
   before_action :find_post, only: [:edit, :update, :destroy, :show]
 
   def index
@@ -41,11 +41,16 @@ class Admin::PostsController < ApplicationController
 
   def del_posts
     Post.destroy_all(id: params[:post_ids])
-    redirect_to admin_event_posts_path(params[:event_id]), notice: 'Deleted'
+    redirect_to admin_event_posts_path(params[:event_id]), alert: 'Deleted'
   end
 
   def all_posts 
-    @posts = Post.all
+    @posts = Post.all.includes([:event, :user])
+  end
+
+  def del_posts_page
+    Post.destroy_all(id: params[:post_ids])
+    redirect_to all_posts_admin_posts_path, alert: 'Deleted'
   end
 
   private

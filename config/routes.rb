@@ -9,8 +9,16 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :posts do 
-      get :all_posts, on: :collection
+      collection do 
+        get :all_posts
+        delete :del_posts_page
+      end
     end
+
+    resources :comments do 
+      delete :del_comments, on: :collection
+    end
+
     resources :events do 
       collection do 
         delete :del_events

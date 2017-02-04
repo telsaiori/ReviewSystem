@@ -14,6 +14,11 @@ class Admin::CommentsController < ApplicationController
     end
   end
 
+  def del_comments
+    Comment.destroy_all(id: params[:comment_ids])
+    redirect_back(fallback_location: root_path, alert: '123')
+  end
+
   private
   
   def comment_params

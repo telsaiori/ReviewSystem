@@ -1,7 +1,7 @@
-<span class="post_title">Proposal</span>[<%= link_to 'Edit', edit_admin_event_post_path(@event, @post) %>]
+<span class="post_title">Proposal</span>
 <hr>
 <h2>Title</h2>
-<p><%= @post.title %></p>
+<p><%= @post.title %>[<%= link_to 'Edit', edit_admin_event_post_path(@event, @post) %>]</p>
 <h2>Content</h2>
 <p><%= sanitize markdown @post.body %></p>
 
@@ -9,16 +9,18 @@
 <h1>Comments</h1>
 <div class="proposal_comments">
   <% if @post.comments.any? %>
-    <%= render partial: 'comment', collection: @post.comments.includes(:user), as: 'comment' %>
+    <%= form_tag del_comments_admin_comments_path, method: :delete %>
+      <%= render partial: 'comment', collection: @post.comments.includes(:user), as: 'comment' %>
+    <%= submit_tag 'Delete selected comments' %>
   <% else %>
     <p>No comments now</p>
   <% end %>
 </div>
 
-<h3>Add comments</h3>
+<!-- <h3>Add comments</h3>
 
 <%= form_for @comment, url: event_post_comments_path(@event, @post),remote: true, method: :post do |f| %>
   <%= f.hidden_field :post_id, value: @post.id %>
   <%= f.text_area :body, required: true %><br>
   <%= f.submit %>
-<% end %>
+<% end %> -->

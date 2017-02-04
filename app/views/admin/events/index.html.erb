@@ -24,7 +24,7 @@
             <td><%= event.start_date %> ~ <%= event.end_date %></td>
             <td><%= link_to 'Edit', edit_admin_event_path(event), class: 'btn btn-primary' %>
                 <%= link_to 'Delete', admin_event_path(event),method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
-                <%= link_to 'Add Proposal', new_event_post_path(event), class: 'btn btn-default' %>    
+                <%= link_to 'Manage all proposal', admin_event_posts_path(event), class: 'btn btn-default' %>    
             </td>
 
           <tr>

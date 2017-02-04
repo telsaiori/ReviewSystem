@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <% if params[:controller] == "admin/events" %>
+    <% if controller.class.parent == Admin %>
       <%= render partial: 'shared/admin_nav' %>
     <% else %>
       <%= render partial: 'shared/navbar' %>

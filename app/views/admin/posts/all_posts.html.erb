@@ -1,0 +1,30 @@
+<h1>Proposal</h1>
+<hr>
+<%= form_tag del_posts_page_admin_posts_path, method: :delete%>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <td></td>
+        <td>ID</td>
+        <td>Title</td>
+        <td>Content</td>
+        <td>Status</td>
+        <td>User</td>
+        <td>Event</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @posts.each do |post| %>
+        <tr>
+          <td><%= check_box_tag 'post_ids[]', post.id %></td>
+          <td><%= post.id %></td>
+          <td><%= link_to post.title, admin_event_post_path(post.event_id, post) %></td>
+          <td><%= post.body %></td>
+          <td><%= post.status %></td>
+          <td><%= post.user.email %></td>
+          <td><%= post.event.title %></td>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+<%= submit_tag 'Delete selected items', class: 'btn btn-danger' %>
